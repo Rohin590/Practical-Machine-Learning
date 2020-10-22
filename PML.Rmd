@@ -1,0 +1,37 @@
+---
+title: "PML Project"
+output:
+  html_document:
+    df_print: paged
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Overview
+
+This course project is a part of Data Science Specialisation. In this project, we first collect data from activity devices like Fitbit, Jawbone Up etc data from accelerometers on the belt, forearm, arm, and dumbell of 6 participants. They performed barbell lifts correctly and incorrectly in 5 different ways.
+The goal was to predict the manner of the exercise.
+
+## Loading libraries and collecting sets
+
+
+```{r}
+library(ggplot2)
+trainingset <- read.csv("https://d396qusza40orc.cloudfront.net/predmachlearn/pml-training.csv", na.strings=c("NA","#DIV/0!", ""))
+testingset <- read.csv("https://d396qusza40orc.cloudfront.net/predmachlearn/pml-testing.csv", na.strings=c("NA","#DIV/0!", ""))
+```
+```{r}
+library(lattice); library(caret); library(randomForest); library(rpart);library(rpart.plot)
+trainingset<-trainingset[,colSums(is.na(trainingset)) == 0]
+testingset <-testingset[,colSums(is.na(testingset)) == 0]
+
+trainingset   <-trainingset[,-c(1:7)]
+testingset <-testingset[,-c(1:7)]
+
+traintrainset <- createDataPartition(y=trainingset$classe, p=0.75, list=FALSE)
+TrainTrainingSet <- trainingset[traintrainset, ] 
+TestTrainingSet <- trainingset[-traintrainset, ]
+```
+
